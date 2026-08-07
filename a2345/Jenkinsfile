@@ -1,22 +1,37 @@
 pipeline {
     agent any
+
+    tools {
+        // Tells Jenkins to use the Maven tool configured in Manage Jenkins -> Tools
+        maven 'Maven-3' 
+    }
+
     stages {
         stage('Checkout') {
             steps {
                 git branch: 'master', url: 'https://github.com/ShaktiDevOps/devops-practice.git'
             }
         }
+
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                // Navigate into subfolder 'a2345' where pom.xml exists
+                dir('a2345') {
+                    sh 'mvn clean package'
+                }
             }
         }
+
         stage('Docker Build') {
             steps {
-                sh 'docker build -t demo-app:v1 .'
+                // Navigate into subfolder 'a2345' where Dockerfile exists
+                dir('a2345') {
+                    sh 'docker build -t demo-app:v1 .'
+                }
             }
         }
     }
+
     post {
         always {
             cleanWs()
