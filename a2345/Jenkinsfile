@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        // Tells Jenkins to use the Maven tool configured in Manage Jenkins -> Tools
+        // Must match the exact name configured in Jenkins UI
         maven 'Maven-3' 
     }
 
@@ -15,7 +15,6 @@ pipeline {
 
         stage('Build') {
             steps {
-                // Navigate into subfolder 'a2345' where pom.xml exists
                 dir('a2345') {
                     sh 'mvn clean package'
                 }
@@ -24,7 +23,6 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                // Navigate into subfolder 'a2345' where Dockerfile exists
                 dir('a2345') {
                     sh 'docker build -t demo-app:v1 .'
                 }
@@ -35,12 +33,6 @@ pipeline {
     post {
         always {
             cleanWs()
-        }
-        success {
-            echo 'Pipeline executed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed. Check build logs.'
         }
     }
 }
