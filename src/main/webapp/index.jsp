@@ -4,3 +4,4 @@
     <p>Git -> Maven -> Jenkins -> Docker -> Kubernetes</p>
     </body>
     </html>
+Version 2
